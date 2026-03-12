@@ -24,3 +24,39 @@ flowchart TD
 
 
 ```
+
+
+```mermaid
+flowchart TB
+    %% SYSTEM / TECH STACK
+
+    subgraph L1["Data Layer"]
+        D1["CSV files (proposals.csv)"]
+    end
+
+    subgraph L2["Python DSS Pipeline"]
+        P0["Python 3.x CLI\ml_pipeline.py + argparse"]
+        P1["ETL & Feature Engineering\npandas, numpy"]
+        P2["ML Preprocessing\nscikit-learn: ColumnTransformer,\nOneHotEncoder, SimpleImputer"]
+        P3["Classifier\nLightGBM (LGBMClassifier)"]
+        P4["Segmentation\nscikit-learn: KMeans, StandardScaler"]
+        P5["Optimization\nPuLP (CBC solver)\nLpProblem, LpVariable, LpBinary"]
+        P6["Model & Artifact I/O\njoblib (model), pandas.to_csv\nproposal_accept_scores.csv\ncustomer_segments.csv\nproposal_selection.csv"]
+    end
+
+    subgraph L3["BI / Reporting Layer"]
+        B1["Power BI Desktop / Service\nImport CSVs, build dashboards"]
+        B2["Plain-text model_report.txt\n(AUC, PR-AUC, F1, k, profit)"]
+    end
+
+    D1 --> P0
+    D2 --> P0
+    P0 --> P1 --> P2 --> P3
+    P3 --> P4
+    P4 --> P5
+    P5 --> P6
+    P6 --> B1
+    P6 --> B2
+
+
+```
